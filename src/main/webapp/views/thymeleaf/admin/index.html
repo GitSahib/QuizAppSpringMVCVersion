@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">Main Content goes here</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+</body>
+</html>

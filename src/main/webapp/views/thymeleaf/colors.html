@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{title.login.page}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../static/css/animate-custom.css" rel="stylesheet"
+	th:href="@{css/animate-custom.css}" />
+<link href="../static/css/login-one.css" rel="stylesheet"
+	th:href="@{css/login-one.css}" />
+<link href="../static/css/login-two.css" rel="stylesheet"
+	th:href="@{css/login-two.css}" />
+<link href="../static/css/login-two.css" rel="stylesheet"
+	th:href="@{css/bootstrap/css/bootstrap.min.css}" />
+<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+
+</head>
+<body>
+	<section>	
+		<span th:text="${'Execution Time:'+executeTime + 'ms'}"></span>
+		<div id="container_login">
+			<ul style="padding:0px;list-style-type:none;">
+				<li th:each="color:*{list}" th:style="${'background:' + color}" th:text="${color}"></li>
+			</ul>
+		</div>		
+	</section>
+</body>
+</html>

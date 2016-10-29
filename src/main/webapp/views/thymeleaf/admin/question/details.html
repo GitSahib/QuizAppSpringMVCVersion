@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div th:replace="partials/backend/pagetitle::pagetitle">&nbsp;</div>
+					<h2 th:text="#{heading.id}">Id:</h2>
+					
+					<span th:text="${question.id}"></span>
+					<h2 th:text="#{heading.question.text}">Question Text:</h2>
+					<span th:utext="${question.text}"></span>
+
+					<h2 th:text="#{heading.time.created}">Time Created:</h2>
+					<span th:text="${question.updatedTime}"></span>
+
+					
+					<h2 th:text="#{heading.question.type}">Question Type:</h2>
+					<span th:text="${question.type}"></span>
+					<h2 th:text="#{heading.subject}">Question Subject:</h2>
+					<span th:utext="${question.subject.name}"></span>
+					<h2 th:text="#{heading.total.marks}">Total Marks:</h2>
+					<span th:utext="${question.totalMarks}"></span>
+					<div class="clear"></div>
+					<h2 th:text="#{heading.question.choices}">Options:</h2>
+					<ol>
+						<li th:each="choice:${question.choices}" th:text="${choice.text}"></li>
+					</ol>
+					<a class="btn btn-primary" href="/admin/question/list"
+						th:text="#{action.goto.question.list}">Goto Question List</a> <a
+						class="btn btn-warning"
+						th:href="${'/admin/question/edit/'+question.id}"
+						th:text="#{action.edit.this.question}">Edit this Question</a> <a
+						class="btn btn-success" href="/admin/question/create"
+						th:text="#{action.question.create.a.new.one}">Create a new one</a>
+				</div>
+			</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+
+
+</body>
+</html>

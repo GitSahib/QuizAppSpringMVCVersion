@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- top navigation -->
+<section class="bg-primary" id="about" th:fragment="about">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2 text-center">
+				<h2 class="section-heading" th:text="#{about.heading.top}">We've got what you need!</h2>
+				<hr class="light">
+				<p class="text-faded" th:text="#{about.heading}">
+					MEMS has everything you need for conducting exam and evoluating your students.
+				    Students can also take advantage of taking different exercises and question and know about thier
+				    strengths and weaknesses!</p>
+				<a href="login#toregister"	class="page-scroll btn btn-default btn-xl sr-button" th:text="#{button.getting.started}">Get
+					Started!</a>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- /top navigation -->
+</html>

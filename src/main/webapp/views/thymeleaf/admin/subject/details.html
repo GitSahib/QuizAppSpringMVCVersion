@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div th:replace="partials/backend/pagetitle::pagetitle">&nbsp;</div>
+					<h2>Id:</h2>
+					<span th:text="${subject.id}"></span>
+
+					<h2>Mission:</h2>
+					<span th:text="${subject.mission}"></span>
+
+					<h2>Name:</h2>
+					<span th:text="${subject.name}"></span>
+					<div class="clear"></div>
+					<a class="btn btn-primary" href="/admin/subject/list"
+						th:text="#{action.goto.subject.list}">Goto Subject List</a> <a
+						class="btn btn-warning"
+						th:href="${'/admin/subject/edit/'+subject.id}"
+						th:text="#{action.edit.this.subject}">Edit this Subject</a> <a
+						class="btn btn-success" href="/admin/subject/create"
+						th:text="#{action.subject.create.a.new.one}">Create a new one</a>
+				</div>
+			</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+
+
+</body>
+</html>

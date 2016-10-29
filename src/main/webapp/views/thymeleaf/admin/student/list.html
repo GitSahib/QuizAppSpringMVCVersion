@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div th:replace="partials/backend/pagetitle::pagetitle"></div>
+					<div class="clearfix"></div>
+
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>
+										Students <small>Assigned to you.</small>
+									</h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i
+												class="fa fa-chevron-up"></i></a></li>
+
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<ul class="list-group">
+										<li class="list-group-item" style="height:50px;">
+											<div class="col-md-2 photo">
+												<label>Photo</label>
+											</div>
+											<div class="col-md-2 id">
+												<label>ID</label>
+											</div>
+											<div class="col-md-2 lastName">
+												<label>Last Name</label>
+											</div>
+											<div class="col-md-2 entry">
+												<label>Entry</label>
+											</div>
+											<div class="col-md-2 email">
+												<label>Email</label>
+											</div>
+											<div class="col-md-1 phone">
+												<label>Phone</label>
+											</div>
+											<div class="col-md-1">
+												<label>Delete</label>
+											</div>
+										</li>
+										<li th:each='user:${users}' class="list-group-item" style="height:150px;">
+											<div class="col-md-2 photo">
+												<img style="margin-top:0px"
+													th:src="${user.profile.image != '' ?'data:image/jpeg;base64,'+user.profile.image:'/users/userimages/avatar.png'}"
+													th:alt="${user.profile.image != '' ? user.profile.firstName:'avatar'}"
+													class="img-circle profile_img">
+											</div>
+											<div class="col-md-2 id" th:text="${user.profile.studentId}"></div>
+											<div class="col-md-2 lastName" th:text="${user.profile.firstName}"></div>
+											<div class="col-md-2 entry" th:text="${user.profile.entry}"></div>
+											<div class="col-md-2 email" th:text="${user.username}"></div>
+											<div class="col-md-1 phone" th:text="${user.profile.phoneNumber}"></div>
+											<div class="col-md-1 phone">
+												<input type="checkbox" class="checkbox" 
+												th:attr="data-id=${user.id}" onclick="DeleteMe(this)" />
+											</div>
+										</li>
+
+									</ul>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+	<script>
+		function DeleteMe(that) {
+			
+		}
+	</script>
+</body>
+</html>

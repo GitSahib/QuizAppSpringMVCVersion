@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="partials/frontend/head::head"></div>
+
+<link href="/static/vendor/font-awesome/css/font-awesome.css" rel="stylesheet"
+	th:href="@{/static/vendor/font-awesome/css/font-awesome.css}" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<link href="/static/css/animate-custom.css" rel="stylesheet"
+	th:href="@{/static/css/animate-custom.css}" />
+<link href="/static/css/login-one.css" rel="stylesheet"
+	th:href="@{static/css/login-one.css}" />
+<link href="/static/css/login-two.css" rel="stylesheet"
+	th:href="@{/static/css/login-two.css}" />
+<body id="page-top login">
+	<div th:replace="partials/frontend/topmenu::menu"></div>
+	<section>
+		<div id="container_login">
+			<!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
+			<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
+				id="tologin"></a>
+			<div class="col-md-3"></div>
+			<div id="wrapper" class="col-md-6">
+				<div id="login" class="animate form">
+					<form class="panel panel-primary" method="post"
+						th:action="@{/login}" th:object="${userForm}" autocomplete="on">
+						<div class="panel-heading">
+							<h1 class="panel-title" th:text="#{heading.login}">Log In</h1>
+						</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<input class="form-control" id="username" th:field="*{username}"
+									required="required" type="text"
+									th:placeholder="#{placeholder.your.email}" />
+
+							</div>
+
+							<div class="form-group">
+								<input class="form-control" id="password" th:field="*{password}"
+									required="required" type="password"
+									th:placeholder="#{placeholder.your.password}" />
+								<p th:if="${#fields.hasErrors('password')}"
+									class="label label-danger" th:errors="*{password}">Incorrect
+									User Name or Password</p>
+							</div>
+							<p class="keeplogin">
+								<input type="checkbox" name="loginkeeping" id="loginkeeping"
+									value="loginkeeping" /> <label for="loginkeeping"
+									th:text="#{label.keep.me.login}"></label>
+							</p>
+							<div class="form-group full">
+								<input class="btn btn-primary" type="submit"
+									th:value="#{button.login}" />
+							</div>
+							<p class="change_link">
+								<span th:text="#{question.not.a.member.yet}"></span> <a
+									id="toregister" href="#toregister" class="to_register"> <span
+									th:text="#{button.register}">Register</span>
+								</a>
+							</p>
+						</div>
+					</form>
+				</div>
+
+				<div id="register" class="animate form">
+					<form class="panel panel-primary" method="post"
+						th:action="@{/register}" th:object="${userForm}" autocomplete="on">
+						<div class="panel-heading">
+							<h1 class="panel-title" th:text="#{heading.signup}">Sign up</h1>
+						</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<input class="form-control" id="firstname"
+									th:field="*{profile.firstName}" required="required" type="text"
+									th:placeholder="#{placeholder.firstname}" />
+								<p th:if="${#fields.hasErrors('profile.firstName')}"
+									class="label label-danger" th:errors="*{profile.firstName}">Incorrect
+									First Name</p>
+							</div>
+							<div class="form-group">
+								<input class="form-control" id="lastname"
+									th:field="*{profile.lastName}" required="required" type="text"
+									th:placeholder="#{placeholder.lastname}" />
+								<p th:if="${#fields.hasErrors('profile.lastName')}"
+									class="label label-danger" th:errors="*{profile.lastName}">Incorrect
+									Last Name</p>
+							</div>
+							<div class="form-group">
+								<input class="form-control" id="phonenumber"
+									th:field="*{profile.phoneNumber}" required="required"
+									type="text" placeholder="Phone Number"
+									th:placeholder="#{placeholder.phone.number}" />
+							</div>
+							<div class="form-group">
+								<input class="form-control" id="username" th:field="*{username}"
+									required="required" type="text"
+									th:placeholder="#{placeholder.your.email}" />
+								<p th:if="${#fields.hasErrors('username')}"
+									class="label label-danger" th:errors="*{username}">Incorrect
+									User Name</p>
+							</div>
+
+							<div class="form-group">
+								<input class="form-control" id="password" th:field="*{password}"
+									required="required" type="password"
+									th:placeholder="#{placeholder.enter.password}" />
+								<p th:if="${#fields.hasErrors('password')}"
+									class="label label-danger" th:errors="*{password}">Incorrect
+									Password</p>
+							</div>
+							<div class="form-group">
+								<input class="form-control" id="confirmpassword"
+									th:field="*{passwordConfirm}" required="required"
+									type="password"
+									th:placeholder="#{placeholder.confirm.your.password}" />
+
+								<p th:if="${#fields.hasErrors('passwordConfirm')}"
+									class="label label-danger" th:errors="*{passwordConfirm}">Passwords
+									Does not match</p>
+							</div>
+							<div class="form-group full">
+								<input class="btn btn-primary" type="submit"
+									th:value="#{button.signup}" />
+							</div>
+							<p class="change_link">
+								<span th:text="#{question.already.a.member}"></span> <a
+									id="tologin" href="#tologin" class="to_register"
+									th:text="#{button.go.and.login}"></a>
+							</p>
+						</div>
+					</form>
+					<script th:if="${register=='yes'}">
+						$("#register").attr("style", "opacity:1;z-index:22");
+						$("#login").attr("style", "opacity:0;z-index:21");
+					</script>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div th:replace="partials/frontend/scripts::scripts"></div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="partials/frontend/head::head"></div>
+
+<link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet"
+	th:href="@{vendor/font-awesome/css/font-awesome.css}" />
+<!-- <meta name="_csrf" th:content="${_csrf.token}" />
+		default header name is X-CSRF-TOKEN
+		<meta name="_csrf_header" th:content="${_csrf.headerName}" /> -->
+<body id="page-top profile">
+	<div th:replace="partials/frontend/topmenu::menu"></div>
+	<section>
+		<div id="container_profile">
+			<!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
+			<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
+				id="tologin"></a>
+			<div class="col-md-3"></div>
+			<div id="wrapper" class="col-md-6">
+				<div id="profile" class="animate form panel panel-primary">
+					<div class="panel-heading">
+						<h1 class="panel-title" th:text="#{heading.profile.profile.info}">Profile</h1>
+					</div>
+					<div class="panel-body">
+						<form id="upload-photo-form" class="col-md-4 center">
+							<div class="form-group">
+								<label for="upload-photo-input center"></label>
+								<div class="clear"></div>
+								<div id="avatar-content">
+									<div th:if="${user.profile.image != ''}">
+										<img id="user-avatar" class="img img-circle"
+											th:src="${'data:image/jpeg;base64,'+user.profile.image}" />
+									</div>
+									<div th:if="${user.profile.image == ''}">
+										<img id="user-avatar" class="img img-circle"
+											src="users/userimages/avatar.png" />
+									</div>
+									<span id="edit-avatar"
+										class="btn btn-danger btn-sm hidden fa fa-edit"></span>
+								</div>
+								<label for="upload-photo-input center">Avatar</label>
+								<input id="upload-photo-input" class="hidden" type="file"
+									name="uploadphoto" accept=".png,.jpg,.jpeg,.gif" /> <br /> <span
+									id="upload-photo-message"></span> <a
+									id="message-detail-trigger"  href="javascript:void(0)"
+									class="btn btn-default btn-sm hidden">Detail</a>
+								<p id="message-detail" ></p>
+
+							</div>
+						</form>
+						
+						<form method="post" th:action="@{/profile}"
+							th:object="${profileForm}" autocomplete="on">
+
+							<div class="col-md-8">
+								<fieldset>
+									<legend th:text="#{legend.personnel.info}">Your
+										Personnel Information</legend>
+									<div class="form-group">
+										<input class="form-control" id="firstname"
+											th:field="*{firstName}" required="required" type="text"
+											th:placeholder="#{placeholder.firstname}" />
+										<p th:if="${#fields.hasErrors('firstName')}"
+											class="label label-danger" th:errors="*{firstName}">Incorrect
+											First Name</p>
+									</div>
+									<div class="form-group">
+										<input class="form-control" id="lastname"
+											th:field="*{lastName}" required="required" type="text"
+											th:placeholder="#{placeholder.lastname}" />
+										<p th:if="${#fields.hasErrors('lastName')}"
+											class="label label-danger" th:errors="*{lastName}">Incorrect
+											Last Name</p>
+									</div>
+									<div class="form-group">
+										<input class="form-control" id="phonenumber"
+											th:field="*{phoneNumber}" required="required" type="text"
+											placeholder="Phone Number"
+											th:placeholder="#{placeholder.phone.number}" />
+										<p th:if="${#fields.hasErrors('phoneNumber')}"
+											class="label label-danger" th:errors="*{phoneNumber}">Phone
+											Number Error</p>
+									</div>
+								</fieldset>
+							</div>
+							<div class="clear"></div>
+							<div class="col-md-12">
+							<fieldset>
+								<legend th:text="#{legend.change.password}">Change
+									Password</legend>
+								<span th:if="${passwordChanged}" class="label label-success">
+									Your Password Was Changed Successfully. </span>
+								<div class="form-group">
+									<input class="form-control" id="oldPassword"
+										th:field="*{user.oldPassword}" type="password"
+										th:placeholder="#{placeholder.enter.old.password}" />
+									<p th:if="${#fields.hasErrors('user.oldPassword')}"
+										class="label label-danger" th:errors="*{user.oldPassword}">Incorrect
+										Old Password</p>
+								</div>
+								<div class="form-group">
+									<input class="form-control" id="password"
+										th:field="*{user.password}" type="password"
+										th:placeholder="#{placeholder.enter.new.password}" />
+									<p th:if="${#fields.hasErrors('user.password')}"
+										class="label label-danger" th:errors="*{user.password}">Incorrect
+										Password</p>
+								</div>
+								<div class="form-group">
+									<input class="form-control" id="confirmpassword"
+										th:field="*{user.passwordConfirm}" type="password"
+										th:placeholder="#{placeholder.confirm.your.password}" />
+									<p th:if="${#fields.hasErrors('user.passwordConfirm')}"
+										class="label label-danger" th:errors="*{user.passwordConfirm}">Passwords
+										Does not match</p>
+								</div>
+
+							</fieldset>
+							
+							<div class="form-group full">
+								<input class="btn btn-primary" type="submit"
+									th:value="#{button.save.profile.info}" />
+							</div>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div th:replace="partials/frontend/scripts::scripts"></div>
+	<script>
+		$(function() {
+			$("#message-detail-trigger").on("click", function() {
+				$("#message-detail").toggle();
+			});
+			$("#edit-avatar").click(function() {
+				$("#upload-photo-input").click();
+			});
+			$("#avatar-content").mouseenter(function() {
+				$("#edit-avatar").removeClass("hidden");
+			});
+			$("#avatar-content").mouseleave(function() {
+				$("#edit-avatar").addClass("hidden");
+			});
+			$("#upload-photo-input").on("change", uploadFile);
+		});
+		function uploadFile() {
+			var imgVal = $('#upload-photo-input').val();
+			if (imgVal == '') {
+				return;
+			}
+			$("#upload-photo-message").addClass("text-success").removeClass(
+					"text-danger").text("Please wait...");
+			var _tc = $("meta[name='_csrf']").attr("content");
+			var _hc = $("meta[name='_csrf_header']").attr("content");
+			$
+					.ajax({
+						url : "profile/uploadPhoto",
+						type : "POST",
+						data : new FormData($("#upload-photo-form")[0]),
+						enctype : 'multipart/form-data',
+						processData : false,
+						contentType : false,
+						cache : false,
+						beforeSend : function(xhr) {
+							// here it is
+							xhr.setRequestHeader(_hc, _tc);
+						},
+						success : function(response) {
+							// Handle upload success
+							console.log(response);
+							$("#upload-photo-message").addClass("text-success")
+									.removeClass("text-danger").text("");
+							$("#user-avatar").attr("src",
+									'data:image/jpeg;base64,' + response);
+						},
+						error : function(data) {
+							// Handle upload error
+							console.log(data);
+							$("#message-detail").slideUp();
+							$("#message-detail-trigger").removeClass("hidden");
+							$("#upload-photo-message")
+									.addClass("text-danger")
+									.removeClass("text-success")
+									.text(
+											"Error:Photo not uploaded");
+							var response = $.parseJSON(data.responseText);
+							console.log(response);
+							$(Object.keys(response)).each(
+									function(key, value) {
+										$("#message-detail").append(
+												"<p class='text-danger'>"
+														+ value + ":"
+														+ response[value]
+														+ "</p>");
+									});
+						}
+					});
+		} // function uploadFile
+	</script>
+</body>
+</html>

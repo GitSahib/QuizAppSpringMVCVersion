@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- top navigation -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top"
+	th:fragment="menu">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span> <span th:text="#{menu.menu}">Menu</span> <i class="fa fa-bars"></i>
+			</button>
+			<a class="navbar-brand page-scroll" href="#page-top">MUM Exam Management System (MEMS)</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li th:if="${title=='Home'}"><a class="page-scroll" th:href="@{/index#about}" th:text="#{menu.about}">About</a></li>
+				<li th:unless="${title=='Home'}"><a  th:href="@{/index}" th:text="#{menu.home}" >Home</a></li>
+				
+				<li th:class="${title=='exams'?'active':''}" th:if="${user}"><a th:href="@{/exams}" th:text="#{menu.exam}">My Exams</a></li>
+				<li th:if="${user!=null && user.hasRole('Admin')}"><a th:href="@{/admin/}" th:text="#{menu.backend}">Backend</a></li>
+				<li th:class="${title=='Profile'?'active':''}" th:if="${user}"><a th:href="@{/profile}" th:text="${user.profile.firstName+' - Profile'}" th:text="#{menu.profile}">Profile</a></li>
+				<li th:class="${title=='Login'?'active':''}" th:if="${user}"><a th:href="@{/logout}" th:text="#{menu.logout}">Logout</a></li>
+				<li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:utext="#{menu.language} + '<span class=\'caret\'></span>'"> Language <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="?lang=en" th:text="#{lang.english}">English</a></li>
+                  <li><a href="?lang=de" th:text="#{lang.german}">German</a></li>
+                  <li><a href="?lang=ur" th:text="#{lang.urdu}">Urdu</a></li>                 
+                </ul>
+              </li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container-fluid -->
+</nav>
+<!-- /top navigation -->
+</html>

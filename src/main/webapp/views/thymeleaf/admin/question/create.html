@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+<link th:href="@{/static/vendor/summernote/summernote.css}" rel="stylesheet" />
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div th:replace="partials/backend/pagetitle::pagetitle"></div>
+					<div class="clearfix"></div>
+
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>
+										Question <small>Create</small>
+									</h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i
+												class="fa fa-chevron-up"></i></a></li>
+
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+
+									<form class="form-horizontal form-label-left"
+										th:object="${question}" method="post" th:action="@{create}">
+										<div class="item form-group">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12"
+												for="name">Question <span class="required">*</span>
+											</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+												<textarea id="text" class="summernote col-md-7 col-xs-12"
+													data-validate-length-range="6" data-validate-words="2"
+													th:field="*{text}" th:placeholder="#{enter.question.text}"
+													required="required"></textarea>
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12"
+												for="type">Question Type <span class="required">*</span>
+											</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+												<select id="type" onblur="ChangeChoices(this.value);" onchange="ChangeChoices(this.value);" th:field="*{type}" required="required"
+													class="form-control col-md-7 col-xs-12">
+													<option th:each="item:${types}" th:value="${item}"
+														th:text="${item}"></option>
+												</select> 
+											</div>
+										</div>
+										
+										<div id="choices" th:unless="${question.choices.size() > 0 }">
+										
+										</div>
+										<div class="form-group">
+											<span id="addChoice" style="display:none" class="btn btn-primary">Add Choice</span>
+										</div>
+										<div class="item form-group">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12"
+												for="totalMarks">Total Marks <span class="required">*</span>
+											</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+												<input type="number" id="totalMarks" th:field="*{totalMarks}" required="required"
+													class="form-control col-md-7 col-xs-12" data-validate-minmax="1,100" />
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12"
+												for="subject">Subject <span class="required">*</span>
+											</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+												<select id="subject" th:field="*{subject.id}" required="required"
+													class="form-control col-md-7 col-xs-12">
+													<option th:each="item: ${subjects}" th:value="${item.id}"
+														th:text="${item.name}"></option>
+												</select> 
+											</div>
+										</div>
+										
+										
+										<div class="ln_solid"></div>
+										<div class="form-group">
+											<div class="col-md-6 col-md-offset-3">
+												<button id="send" type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+	<script th:src="@{/static/vendor/summernote/summernote.min.js}"></script>
+	<script>
+		function ChangeChoices(type)
+		{
+			switch(type)
+			{
+				case 'MULTIPLE_CHOICE':
+				case 'TRUE_FALSE':
+				$("#addChoice").show();
+				break;
+				default:
+					$("#addChoice").hide();
+			}
+		}
+		$(function(){
+			ChangeChoices($('#type').val());
+			$('.summernote').summernote({
+				  height: 200,                 // set editor height
+				  minHeight: null,             // set minimum height of editor
+				  maxHeight: null,             // set maximum height of editor
+				  focus: true                  // set focus to editable area after initializing summernote
+				});
+			$("#addChoice").click(function(){
+				var row= $("<div class='choice_row'>");
+				var counter = $('div.choice_row').length;
+				var column1 = $("<div class='col-md-4'>");
+				var textLabel = $("<label>Choice Text</label>");
+				var text   = $("<input type='text' class='form-control' name='choices["+counter+"].text' />");
+				column1.append(textLabel);
+				column1.append(text);
+				
+				var column2 = $("<div class='col-md-4'>");
+				var answerLabel = $("<label>Answer</label>");
+				var answer  = $("<select class='form-control' name='choices["+counter+"].correct'><option value='yes'>Yes</option>"+
+			      "<option value='No'>No</option></select>");
+				column2.append(answerLabel);
+				column2.append(answer);
+				
+				var column3 = $("<div class='col-md-4'>");
+				var marksLabel = $("<label>Choice Marks</label>");
+				var marks   = $("<input type='number' class='form-control' name='choices["+counter+"].choiceMarks'/>");
+				column3.append(marksLabel);
+				column3.append(marks)
+				
+				row.append(column1);
+				row.append(column2);
+				row.append(column3);
+				$("#choices").append(row);
+			});				
+		})
+	</script>
+</body>
+</html>

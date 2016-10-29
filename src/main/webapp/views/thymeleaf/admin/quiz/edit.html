@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+<link href="/vendor/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/dtp.css" rel="stylesheet" />
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div th:replace="partials/backend/pagetitle::pagetitle"></div>
+					<div class="clearfix"></div>
+
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>
+										Exam/Quiz <small>Create</small>
+									</h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i
+												class="fa fa-chevron-up"></i></a></li>
+
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+
+									<form class="form-horizontal form-label-left"
+										th:object="${quizForm}" method="post" th:action="@{edit}">
+										<div class="item form-group col-md-6">
+											<input type='hidden' th:field="*{id}" />
+											<input type='hidden' th:field="*{user.id}" />
+											<label for="subject">Subject </label> <select id="subject"
+												th:field="*{subject.id}" required="required"
+												class="form-control col-md-7 col-xs-12">
+												<option th:each="item: ${subjects}" th:value="${item.id}"
+													th:text="${item.name}"></option>
+											</select>
+										</div>
+										<div class="item form-group col-md-6">
+											<label>Quiz/Exam Title</label> <input type='text'
+												class='form-control' th:field="*{title}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>Description</label> <input type='text'
+												class='form-control' th:field="*{description}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>No Of MCQs</label> <input type='text'
+												class='form-control' th:field="*{mcqs}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>No of True False</label> <input type='text'
+												class='form-control' th:field="*{trueFalse}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>No of Blanks</label> <input type='text'
+												class='form-control' th:field="*{fillBlanks}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>No Of Short Questions</label> <input type='text'
+												class='form-control' th:field="*{shortQuestions}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>No of Long Questions</label> <input type='text'
+												class='form-control' th:field="*{longQuestions}" />
+										</div>
+										<div class="item form-group col-md-6">
+											<label>Start Date Time</label> <input id="startTime"
+												type='text' class='form-control datetime' required
+												th:field="*{startTime}" /> <span
+												class="dateStartError text-danger"></span>
+										</div>
+										<div class="item form-group col-md-6">
+											<label>End Date Time</label> <input id="endTime" type="text"
+												class='form-control datetime' required th:field="*{endTime}" />
+											<span class="dateEndError text-danger"></span>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="form-group">
+											<div class="col-md-6 col-md-offset-3">
+												<button id="send" type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+									</form>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+	<script src="/vendor/jquery/dtp.js"></script>
+	<script>
+		$('.datetime').datetimepicker();
+		$("form")
+				.submit(
+						function() {
+
+							var startTime = new Date($('#startTime').val());
+							var endTime = new Date($('#endTime').val());
+							var dateNow = new Date();
+							var diffNow = startTime - dateNow;
+							if (diffNow <= 0) {
+								$(".dateStartError").text(
+										"Start Time should be future time");
+								$(".dateEndError")
+								.text('');
+								return false;
+							} else {
+								$(".dateStartError").text("");
+							}
+							console.log(diff,diffNow);
+							var diff = (endTime - startTime) / 60000;
+							if (diff <= 0) {
+								$(".dateEndError")
+										.text(
+												"Start Time should be less than End Time");
+								return false;
+							} else if (diff > 300) {
+								$(".dateEndError")
+										.text(
+												"Too much time between start and end of the exam");
+								return false;
+							} else if(diff < 3)
+							{
+								$(".dateEndError")
+								.text(
+										"Too low time for quiz");
+								$(".dateStartError").text("");
+								return false;
+							}
+							else{
+								$(".dateEndError")
+								.text('');
+							}
+							console.log(diff,diffNow);
+							return true;
+						});
+	</script>
+</body>
+</html>

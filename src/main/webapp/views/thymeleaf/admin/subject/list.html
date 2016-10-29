@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="partials/backend/head::head">&nbsp;</div>
+<link rel="stylesheet" type="text/css"
+	href="/vendor/datatables/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="/vendor/datatables/extensions/TableTools/css/dataTables.tableTools.min.css">
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div th:replace="partials/backend/leftcolumn::leftcolumn">&nbsp;</div>
+
+			<div th:replace="partials/backend/topmenu::topmenu">&nbsp;</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div th:replace="partials/backend/pagetitle::pagetitle"></div>
+					<div class="clearfix"></div>
+					<a class="btn btn-success btn-sm" 
+											href="/admin/subject/create"
+											th:utext="#{action.subject.new}"><i class='fa fa-new'></i></a>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<table id="list_table"
+								class="table table-responsive table-striped table-bordered dt-responsive">
+								<thead>
+									<tr>
+										<th th:text="#{th.subject.id}">Subject ID</th>
+										<th th:text="#{th.subject.title}">Subject Title</th>
+										<th th:text="#{th.subject.mission}">Subject Mission</th>
+										<th th:text="#{th.subject.actions}">Action Buttons</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="subject:${list}">
+										<td th:text="${subject.id}">
+										<td th:text="${subject.name}">
+										<td th:text="${subject.mission}">
+										<td><a th:attr="data-confirm=#{warning.delete}+${subject.name}" 
+											class="btn btn-danger btn-sm"
+											th:href="${'/admin/subject/delete/'+subject.id}"
+											th:utext="#{action.subject.delete}"><i class='fa fa-times'></i></a> 
+											<a class="btn btn-warning btn-sm"
+											th:href="${'/admin/subject/edit/'+subject.id}"
+											th:utext="#{action.subject.edit}"><i class='fa fa-edit'></i></a> 
+											</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /page content -->
+
+			<div th:replace="partials/backend/footer::footer">&nbsp;</div>
+		</div>
+	</div>
+	<div th:replace="partials/backend/jscripts::jscripts">&nbsp;</div>
+
+	<script type="text/javascript"
+		src="/vendor/datatables/jquery.dataTables.min.js"></script>
+
+	<script type="text/javascript"
+		src="/vendor/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#list_table")
+					.DataTable(
+							{
+								dom : 'T<"clear">lfrtip',
+								tableTools : {
+									"sSwfPath" : "/vendor/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf"
+								}
+							});
+		});
+		$(function(){
+	        $( "a[data-confirm]").on("click", function (e) {
+	            if(OpenDialog($(this).attr('data-confirm'))){
+	                
+	            }
+	            else
+	            {
+	                evt = (e)?e:window.event;
+	                evt.preventDefault();
+	            }
+	            
+	        } );
+	        $("a[data-lang-value]").on("click", function (e) {
+	         lang = $(this).attr('data-lang-value');
+	         $(".note-current-language").html($(this).html());
+	         e.preventDefault();
+	        } );
+	        
+	    });
+	    function OpenDialog(content){
+	        if(confirm(content)) return true;
+	        else return false;
+	    }
+	</script>
+</body>
+</html>

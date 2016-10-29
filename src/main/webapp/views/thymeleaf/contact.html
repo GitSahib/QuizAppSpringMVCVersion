@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="partials/frontend/head::head"></div>
+<link href="/css/profile.css" rel="stylesheet"
+	th:href="@{css/profile.css}" />
+<body id="page-top">
+	<div th:replace="partials/frontend/topmenu::menu"></div>
+	<div th:replace="partials/frontend/contact::contact"></div>
+	<div th:replace="partials/frontend/scripts::scripts"></div>
+	<a href="#0" class="cd-top">Top</a>
+</body>
+
+</html>
