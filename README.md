@@ -1,9 +1,8 @@
-Spring MVC Initializer Example
+MEMS
 ==============================
 
-Basic Spring MVC 4.0.x application using `WebApplicationInitializer` instead of `web.xml`.
+Quiz application named (MEMS) using `WebApplicationInitializer` instead of `web.xml`.
 
-Check out [kielczewski.eu/blog](http://kielczewski.eu/blog)!
 
 Requirements
 ------------
